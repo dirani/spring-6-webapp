@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by jt, Spring Framework Guru.
+ * Modified by rd, Aubay
  */
 @Component
 public class BootstrapData implements CommandLineRunner {
