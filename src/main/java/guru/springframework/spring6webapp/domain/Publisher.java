@@ -2,7 +2,6 @@ package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,29 +30,18 @@ public class Publisher {
     private String state;
     private String zip;
 
-    @Override
-    public String toString() {
-        return "Publisher{" +
-                "id=" + id +
-                ", publisherName='" + publisherName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+    @OneToMany(mappedBy = "publisher")
+    //private Set<Book> books = new HashSet<>();
+    private Set<Book> books;
+
+/*    public Set<Book> getBooks() {
+        return books;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Publisher publisher)) return false;
-        return Objects.equals(getId(), publisher.getId()) && Objects.equals(getPublisherName(), publisher.getPublisherName()) && Objects.equals(getAddress(), publisher.getAddress()) && Objects.equals(getCity(), publisher.getCity()) && Objects.equals(getState(), publisher.getState()) && Objects.equals(getZip(), publisher.getZip());
-    }
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }*/
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getPublisherName(), getAddress(), getCity(), getState(), getZip());
-    }
 
     public Long getId() {
         return id;
@@ -103,14 +91,26 @@ public class Publisher {
         this.zip = zip;
     }
 
-    @OneToMany (mappedBy = "publisher")
-    private Set<Book> books = new HashSet<>();
-
-    public Set<Book> getBooks() {
-        return books;
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", publisherName='" + publisherName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", sate='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Publisher publisher)) return false;
+        return Objects.equals(getId(), publisher.getId());
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

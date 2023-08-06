@@ -20,10 +20,11 @@ public class BootstrapData implements CommandLineRunner {
     private final PublisherRepository publisherRepository;
     private final BookRepository bookRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, PublisherRepository publisherRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+                         PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
-        this.publisherRepository = publisherRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
 
     }
 
@@ -33,48 +34,52 @@ public class BootstrapData implements CommandLineRunner {
         eric.setFirstName("Eric");
         eric.setLastName("Evans");
 
-        Publisher awp = new Publisher();
-        awp.setPublisherName("Addison-Wesley Professional");
-
         Book ddd = new Book();
         ddd.setTitle("Domain Driven Design");
         ddd.setIsbn("123456");
 
         Author ericSaved = authorRepository.save(eric);
-        Publisher awpSaved = publisherRepository.save(awp);
         Book dddSaved = bookRepository.save(ddd);
-
 
         Author rod = new Author();
         rod.setFirstName("Rod");
         rod.setLastName("Johnson");
-
-        Publisher jws = new Publisher();
-        jws.setPublisherName("John Wiley & Sons");
 
         Book noEJB = new Book();
         noEJB.setTitle("J2EE Development without EJB");
         noEJB.setIsbn("54757585");
 
         Author rodSaved = authorRepository.save(rod);
-        Publisher jwsSaved = publisherRepository.save(jws);
         Book noEJBSaved = bookRepository.save(noEJB);
-
 
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
-        awpSaved.getBooks().add(dddSaved);
-        jwsSaved.getBooks().add(noEJBSaved);
+
+        Publisher awp = new Publisher();
+        awp.setPublisherName("Addison-Wesley Professional");
+        awp.setAddress("\t501 Boylston St. # 900, Boston, Massachusetts 02116, US");
+        Publisher awpSaved = publisherRepository.save(awp);
+
+        Publisher jws = new Publisher();
+        jws.setPublisherName("John Wiley & Sons");
+        Publisher jwsSaved = publisherRepository.save(jws);
+
+        dddSaved.setPublisher(awpSaved);
+        noEJBSaved.setPublisher(jwsSaved);
+        // awpSaved.getBooks().add(dddSaved);   #WRONG
+        // jwsSaved.getBooks().add(noEJBSaved); #WRONG
 
         authorRepository.save(ericSaved);
         authorRepository.save(rodSaved);
-        publisherRepository.save(awpSaved);
-        publisherRepository.save(jwsSaved);
+        bookRepository.save(dddSaved);
+        bookRepository.save(noEJBSaved);
+ //       publisherRepository.save(awpSaved);   #WHY NOT?
+ //       publisherRepository.save(jwsSaved);   #WHY NOT?
 
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count());
-        System.out.println("Publisher Count: " + publisherRepository.count());
         System.out.println("Book Count: " + bookRepository.count());
+        System.out.println("Publisher Count: " + publisherRepository.count());
 
 
     }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by jt, Spring Framework Guru.
+ * Created by rd, Kyndryl Holdings Inc.
  */
 @Entity
 public class Book {
@@ -31,9 +31,10 @@ public class Book {
     }
 
     @ManyToOne
-    @JoinTable(name = "publisher_book", joinColumns = @JoinColumn(name = "book_id"),
-        inverseJoinColumns = @JoinColumn(name = "publisher_id"))
-    private Publisher publisher = new Publisher();
+//    @JoinTable(name = "publisher_book", joinColumns = @JoinColumn(name = "book_id"),
+//        inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+//    private Publisher publisher = new Publisher();
+    private Publisher publisher;
 
     public Publisher getPublisher() {
         return publisher;
