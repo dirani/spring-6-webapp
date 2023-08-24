@@ -5,7 +5,6 @@ import guru.springframework.spring6webapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //defining the business logic
@@ -17,14 +16,13 @@ public class UserService
     //getting all user records
     public List<User> getAllUser()
     {
-        List<User> users = new ArrayList<User>();
-        userRepository.findAll().forEach(user -> users.add(user));
-        return users;
+        //userRepository.findAll().stream().toList(); //toList java17
+        return userRepository.findAll();
     }
     //getting a specific record
     public User getUserById(Long id)
     {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow();
     }
     public void saveOrUpdate(User user)
     {
